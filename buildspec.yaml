@@ -11,7 +11,7 @@ phases:
     commands:
       - echo Building the Docker image...
       - docker build -t coworking-analytics:$CODEBUILD_BUILD_NUMBER ./analytics
-      - docker tag coworking-analytics:$CODEBUILD_BUILD_NUMBER $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/coworking-analytics:$CODEBUILD_BUILD_NUMBER
+      - docker tag coworking-analytics:$CODEBUILD_BUILD_NUMBER $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/turkialq/udacity:$CODEBUILD_BUILD_NUMBER
   post_build:
     commands:
       - echo Pushing the Docker image...

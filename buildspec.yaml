@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com)
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t coworking-analytics:$CODEBUILD_BUILD_NUMBER ./analytics
+      - docker tag coworking-analytics:$CODEBUILD_BUILD_NUMBER $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/coworking-analytics:$CODEBUILD_BUILD_NUMBER
+  post_build:
+    commands:
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/coworking-analytics:$CODEBUILD_BUILD_NUMBER
+      - echo Build completed on `date`

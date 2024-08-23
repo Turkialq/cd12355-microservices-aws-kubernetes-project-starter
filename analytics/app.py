@@ -7,7 +7,7 @@ from flask import jsonify
 from sqlalchemy import and_, text
 from random import randint
 
-from config import app, db
+from config import app, db, initialize_database
 
 
 port_number = int(os.environ.get("APP_PORT", 5153))
@@ -82,4 +82,5 @@ job = scheduler.add_job(get_daily_visits, 'interval', seconds=30)
 scheduler.start()
 
 if __name__ == "__main__":
+    initialize_database()
     app.run(host="0.0.0.0", port=port_number)
